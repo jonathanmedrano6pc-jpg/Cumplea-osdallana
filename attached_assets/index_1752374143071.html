@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños, Mi niña ❤!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Variables CSS para los colores temáticos de Stitch */
+        :root {
+            --stitch-blue: #87CEEB; /* Celeste claro */
+            --stitch-dark-blue: #4682B4; /* Azul acero */
+            --stitch-pink: #FFB6C1; /* Rosa claro */
+            --stitch-purple: #BA55D3; /* Orquídea (se mantiene para otras secciones si se usa) */
+            --standard-purple: #800080; /* EL NUEVO PURPLE PARA LA SECCIÓN MENSAJE Y OTROS ELEMENTOS */
+            --text-color-dark: #333333; /* Color de texto general oscuro */
+            --text-color-light: #f5f5f5; /* Color de texto general claro */
+            --white: #fff; /* Color blanco */
+            --button-bg: #FFB6C1; /* Rosa para botones */
+            --button-hover-bg: #FF99AA; /* Rosa más oscuro al pasar el mouse */
+            --section-bg-light: #f0f8ff; /* Fondo claro para secciones */
+            --section-bg-dark: #333; /* Fondo oscuro para secciones */
+            --border-radius: 15px;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --heart-color: #ff6b9d;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--section-bg-light);
+            color: var(--text-color-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Estilos globales y utilidades */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Asegura que el contenido esté por encima de fondos/animaciones */
+        }
+
+        .section-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.8em;
+            color: var(--standard-purple);
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .generator-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .generator-btn {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .generator-btn:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-3px);
+        }
+
+        .generator-output {
+            margin-bottom: 30px; /* Ajuste para que el texto esté arriba del botón */
+            padding: 20px;
+            background-color: var(--section-bg-light);
+            border: 1px solid var(--button-bg);
+            border-radius: var(--border-radius);
+            font-size: 1.1em;
+            color: var(--text-color-dark);
+            min-height: 80px; /* Para mantener el tamaño */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0; /* Inicialmente oculto */
+            transform: translateY(30px); /* Inicialmente movido */
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .generator-output.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating Hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0; /* Detrás de todo el contenido */
+        }
+
+        .heart {
+            position: absolute;
+            background-color: var(--heart-color);
+            transform: rotate(-45deg);
+            animation: float 10s ease-in infinite;
+            opacity: 0;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -50%;
+        }
+
+        .heart::after {
+            top: -50%;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--stitch-dark-blue) 0%, var(--stitch-blue) 100%);
+            color: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8em;
+            color: var(--white);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--stitch-pink);
+        }
+
+        /* Estilos para el botón de música de Stitch */
+        .music-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer; /* Indica que es clickeable */
+            transition: background-color 0.3s ease;
+        }
+
+        .music-player:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .music-stitch-image {
+            width: 40px; /* Ajusta el tamaño según necesites */
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .music-stitch-image.playing {
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .music-player span {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1em;
+        }
+
+
+        .hamburger {
+            display: none; /* Oculto por defecto en pantallas grandes */
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background-color: var(--white);
+            margin-bottom: 4px;
+            border-radius: 5px;
+        }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: linear-gradient(135deg, var(--stitch-dark-blue) 0%, var(--stitch-blue) 100%);
+                position: absolute;
+                top: 70px; /* Ajusta según la altura de tu header */
+                left: 0;
+                padding: 20px 0;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* Cover Section */
+        #cover {
+            background: linear-gradient(180deg, var(--stitch-blue) 0%, var(--stitch-dark-blue) 100%);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px); /* Ajusta a la altura del header */
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: var(--white);
+            border-radius: 50%;
+            width: 2px;
+            height: 2px;
+            opacity: 0;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .main-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .stitch-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 40px;
+            z-index: 2;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .stitch-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%; /* Si la imagen es circular */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border: 5px solid var(--stitch-pink);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .countdown {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin-top: 30px;
+        }
+
+        .countdown-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .countdown-timer {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-unit .number {
+            font-family: 'Pacifico', cursive;
+            font-size: 3em;
+            color: var(--stitch-pink);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .time-unit .label {
+            font-size: 0.9em;
+            color: var(--white);
+            margin-top: 5px;
+        }
+
+        /* Message Section */
+        #message {
+            background-color: var(--section-bg-light);
+            color: var(--text-color-dark);
+            padding: 80px 20px;
+        }
+
+        .message-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .message-content p {
+            margin-bottom: 15px;
+        }
+
+        /* Gallery Section */
+        #gallery {
+            background: linear-gradient(135deg, var(--stitch-pink) 0%, var(--stitch-blue) 100%);
+            padding: 80px 20px;
+            color: var(--white);
+        }
+
+        #gallery .section-title {
+            color: var(--white); /* Título blanco para contrastar con el fondo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; /* Añadido cursor para indicar que es clickeable */
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Real Gift Section */
+        #real-gift-section {
+            background-color: var(--section-bg-light);
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #real-gift-section .section-title {
+            margin-bottom: 40px;
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 150px;
+            background-color: var(--stitch-pink);
+            border: 5px solid var(--stitch-dark-blue);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 10; /* Asegura que el regalo esté por encima */
+        }
+
+        .gift-box::before { /* Tapa */
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -5px;
+            width: 200px;
+            height: 40px;
+            background-color: var(--stitch-pink);
+            border: 5px solid var(--stitch-dark-blue);
+            border-radius: 10px;
+            transform: perspective(100px) rotateX(20deg);
+            transform-origin: bottom;
+        }
+
+        .gift-box::after { /* Lazo */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: calc(50% - 10px);
+            width: 20px;
+            height: 100%;
+            background-color: var(--stitch-dark-blue);
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* POPUP/MODAL STYLES FOR GIFT */
+        .gift-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Asegura que esté por encima de todo */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .gift-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .gift-modal {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            transform: translateY(-50px); /* Empieza ligeramente arriba */
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            text-align: center;
+            color: var(--text-color-dark);
+        }
+
+        .gift-modal-overlay.active .gift-modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gift-modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8em;
+            color: var(--text-color-dark);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .gift-modal-close-btn:hover {
+            color: var(--stitch-pink);
+            transform: rotate(90deg);
+        }
+
+        .gift-modal h3 {
+            font-family: 'Pacifico', cursive;
+            color: var(--standard-purple); /* Usar el color para el título del popup */
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .gift-modal p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* --- STYLES FOR IMAGE POPUP --- */
+        .image-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Fondo más oscuro para la imagen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2001; /* Más alto que el modal de regalo */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .image-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-modal-content {
+            position: relative;
+            background-color: transparent; /* Sin fondo para la imagen */
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.8); /* Empieza más pequeño */
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .image-modal-overlay.active .image-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: calc(100vh - 80px); /* Ajusta para dejar espacio al botón de cierre */
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+
+        .image-modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.3); /* Fondo semitransparente para el botón */
+            border: none;
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 2em;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .image-modal-close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: rotate(90deg);
+        }
+        /* --- END STYLES FOR IMAGE POPUP --- */
+
+        /* CSS para la pantalla de bienvenida */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--stitch-blue) 0%, var(--stitch-dark-blue) 100%);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 9999; /* Asegura que esté por encima de todo */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+        }
+
+        #welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Permite clics a través una vez oculto */
+        }
+
+        #welcome-screen h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 4em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        #welcome-screen p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+        }
+
+        #enter-button {
+            background-color: var(--stitch-pink);
+            color: var(--white);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #enter-button:hover {
+            background-color: var(--button-hover-bg);
+            transform: scale(1.05);
+        }
+
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--stitch-dark-blue) 0%, var(--stitch-blue) 100%);
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+        }
+
+        .footer-heart {
+            color: var(--stitch-pink);
+            font-size: 1.2em;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            }
+
+        /* Media Queries for smaller screens */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 3em;
+            }
+
+            .countdown-timer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .time-unit .number {
+                font-size: 2.5em;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .message-content, .generator-container, .gift-modal {
+                padding: 25px;
+            }
+
+            #welcome-screen h1 {
+                font-size: 2.5em;
+            }
+
+            #welcome-screen p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="birthdaySong" preload="auto"></audio>
+
+    <div id="welcome-screen">
+        <h1>¡Bienvenida!</h1>
+        <p>Haz clic para entrar y comenzar la celebración</p>
+        <button id="enter-button">Entrar y Escuchar Música 🎉</button>
+    </div>
+
+    <div class="floating-hearts" id="floating-hearts"></div>
+
+    <header>
+        <nav>
+            <div class="logo">🎉 Cumpleaños Especial</div>
+            <ul class="nav-links">
+                <li><a href="#cover">Inicio</a></li>
+                <li><a href="#message">Mensaje</a></li>
+                <li><a href="#gallery">Galería</a></li>
+                <li><a href="#real-gift-section">Regalo</a></li>
+                <li><a href="#compliment-generator">Cumplidos</a></li>
+                <li><a href="#poem-generator">Poemas</a></li>
+            </ul>
+            <div class="music-player">
+                <img id="music-stitch-btn" src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Gemini_Generated_Image_oiacbfoiacbfoiac.png?v=1747882685309" alt="Botón de Música" class="music-stitch-image">
+                <span>Música</span>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section id="cover">
+        <div class="stars" id="stars"></div>
+        <h1 class="main-title">¡Feliz Cumpleaños!</h1>
+        <div class="stitch-container">
+            <img src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Gemini_Generated_Image_oiacbfoiacbfoiac.png?v=1747882685309" alt="Stitch" class="stitch-image">
+        </div>
+        <div class="countdown">
+            <h3 class="countdown-title">🎂 Countdown hasta tu día especial</h3>
+            <div class="countdown-timer" id="countdown-timer">
+                <div class="time-unit">
+                    <span class="number" id="days">00</span>
+                    <span class="label">Días</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="hours">00</span>
+                    <span class="label">Horas</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="minutes">00</span>
+                    <span class="label">Minutos</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="seconds">00</span>
+                    <span class="label">Segundos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="message">
+        <h2 class="section-title">💝 Mensaje Especial</h2>
+        <div class="message-content">
+            <p>
+                Hoy es un día increíblemente especial, un día que el mundo debería celebrar, porque nació una persona maravillosa: tú. Y no podía dejar pasar esta oportunidad sin decirte todo lo que significas para mí, porque aunque a veces me cuesta expresarlo, hoy quiero que sepas cuánto te valoro, cuánto te quiero y cuánto agradezco a la vida por haberte puesto en mi camino.<br><br>
+                Desde que nos conocimos, supe que nuestra amistad no sería una cualquiera. Desde el principio hubo una conexión especial, una de esas que no se explican con palabras, pero que se sienten en el alma. Con el tiempo, fuimos construyendo una relación llena de risas, secretos, apoyo incondicional y momentos que siempre llevaré en mi corazón. Eres mucho más que una amiga para mí; eres mi hermana, mi familia elegida, esa persona que siempre está ahí sin importar la distancia, el tiempo o las circunstancias.<br><br>
+                A tu lado, he aprendido lo que significa la verdadera amistad. Me has enseñado que estar para alguien no es solo en los buenos momentos, sino también cuando todo parece difícil. Has sido mi apoyo cuando sentí que el mundo se me venía encima, mi refugio cuando no encontraba salida, mi alegría cuando todo parecía gris. Siempre has estado ahí, con tu luz, con tu energía, con esa forma única de hacerme ver la vida de otra manera.
+            </p>
+            <p>
+                Admiro tantas cosas de ti que me sería imposible enumerarlas todas. Admiro tu fortaleza, porque a pesar de los retos que has enfrentado, sigues de pie con una sonrisa. Admiro tu gran corazón, porque siempre tienes amor para dar, incluso cuando el mundo no siempre es justo contigo. Admiro tu valentía, porque nunca te rindes, porque sigues adelante sin importar los obstáculos. Admiro tu capacidad de hacer reír a los demás, de transformar un mal día en algo especial con solo una palabra o una mirada.<br><br>
+                Me siento afortunado de tenerte en mi vida, porque sé que no cualquiera tiene la suerte de encontrar a una persona como tú. Alguien con quien puede ser completamente uno mismo, sin máscaras, sin miedo a ser juzgado. Contigo he compartido algunos de los mejores momentos de mi vida, y sé que aún nos esperan muchas más aventuras juntos.<br><br>
+                Hoy, en tu cumpleaños, solo quiero desearte lo mejor. Quiero que la vida te regale todo lo que mereces: felicidad, amor, éxito y salud. Quiero que cada día encuentres motivos para sonreír y que nunca olvides lo increíble que eres. Que nunca dudes de tu valor, porque eres una persona única y especial. Y quiero que sepas que, sin importar lo que pase, siempre estaré aquí para ti. Para apoyarte, para escucharte, para celebrar tus triunfos y acompañarte en los momentos difíciles.<br><br>
+                Gracias por ser tú. Gracias por cada risa, por cada consejo, por cada abrazo, por cada momento compartido. Gracias por ser mi mejor amiga, mi hermana del alma, mi compañera de vida. No importa cuántos años pasen, nuestra amistad seguirá siendo inquebrantable, porque lo que hemos construido va más allá de cualquier obstáculo.<br><br>
+                Te quiero con todo mi corazón. ¡Feliz cumpleaños, mi persona especial! Que este día y todos los que vengan estén llenos de amor y alegría, porque si alguien lo merece, eres tú.
+            </p>
+            <p>
+                A veces me pongo a pensar en todos los momentos que hemos compartido, y me doy cuenta de cuántas memorias hermosas llevamos acumuladas. Desde esas conversaciones infinitas hasta las tonterías que solo nosotros entendemos, los chistes internos, los abrazos silenciosos que decían más que mil palabras, y esas veces en que simplemente tu compañía era suficiente para que todo estuviera bien.<br><br>
+                Recuerdo cada detalle con una sonrisa. Recuerdo cómo te brillan los ojos cuando hablas de lo que amas, cómo eres capaz de hacer sentir bien a cualquiera con solo estar presente. Tú eres de esas personas que no se olvidan, de esas almas que dejan huella y que uno agradece con todo el corazón haber encontrado.<br><br>
+                Gracias por estar en mi vida en momentos en los que no lo decía, pero te necesitaba más de lo que imaginabas. Gracias por ser esa persona que siempre tiene una palabra de aliento, una broma lista para levantar el ánimo, y una presencia constante que da paz. Porque contigo no hace falta fingir nada, contigo puedo ser real.<br><br>
+                Y aunque la vida cambie, aunque el tiempo pase y las circunstancias sean diferentes, quiero que sepas que yo nunca voy a dejar de estar para ti. No importa si estamos lejos o si la vida nos pone pruebas difíciles: yo siempre te voy a cuidar, apoyar y amar como la hermana que el universo me regaló.<br><br>
+                Te mereces el mundo entero, y si algún día dudas de eso, aquí estaré yo para recordártelo. Ojalá pudiera envolverte todo lo bonito que siento por ti y dártelo en una caja, para que siempre lo lleves contigo y nunca lo olvides.<br><br>
+                Hoy celebramos tu vida, pero para mí cada día contigo es motivo de celebración. Así que no solo te deseo un feliz cumpleaños, te deseo una vida llena de momentos que te hagan sentir viva, de personas que te amen como mereces, y de sueños cumplidos uno por uno.<br><br>
+                Nunca olvides cuánto vales. Nunca olvides cuánto te amo. Nunca olvides que esta amistad es para siempre.<br><br>
+                <strong>Con todo mi amor,</strong>
+            </p>
+            <p>
+                Si pudiera envolver todo lo que siento por ti en un abrazo eterno, lo haría.<br>
+                Si pudiera regalarte un pedazo de cielo, lo bajaría para ti.<br>
+                Porque no hay regalo más grande que tu existencia en mi vida.<br><br>
+                ¡Feliz cumpleaños, hermana del alma! 🎉💜
+            </p>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">📸 Nuestros Mejores Momentos</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-src="https://cdn.glitch.global/937dae7d-a6c2-47b2-820f-df20de36d340/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.42_c0defb14.jpg?v=1743908270089">
+                <img src="https://cdn.glitch.global/937dae7d-a6c2-47b2-820f-df20de36d340/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.42_c0defb14.jpg?v=1743908270089" alt="Foto 1">
+            </div>
+            <div class="gallery-item" data-src="https://cdn.glitch.global/937dae7d-a6c2-47b2-820f-df20de36d340/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.42_dc0a3ba8.jpg?v=1743908281506">
+                <img src="https://cdn.glitch.global/937dae7d-a6c2-47b2-820f-df20de36d340/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.42_dc0a3ba8.jpg?v=1743908281506" alt="Foto 2">
+            </div>
+            <div class="gallery-item" data-src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.08_10d0c473.jpg?v=1748913742062">
+                <img src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.08_10d0c473.jpg?v=1748913742062" alt="Foto 3">
+            </div>
+            <div class="gallery-item" data-src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.09_f3ab9e6f.jpg?v=1748913744313">
+                <img src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.09_f3ab9e6f.jpg?v=1748913744313" alt="Foto 4">
+            </div>
+            <div class="gallery-item" data-src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.09_fb88833f.jpg?v=1748913747002">
+                <img src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-06-02%20a%20las%2019.10.09_fb88833f.jpg?v=1748913747002" alt="Foto 5">
+            </div>
+            <div class="gallery-item" data-src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.43_95561313.jpg?v=1748916479306">
+                <img src="https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Imagen%20de%20WhatsApp%202025-04-03%20a%20las%2018.42.43_95561313.jpg?v=1748916479306" alt="Foto 6">
+            </div>
+        </div>
+    </section>
+
+    <section id="real-gift-section">
+        <h2 class="section-title">🎁 Tu Regalo Especial</h2>
+        <div class="gift-box" id="gift-box"></div>
+    </section>
+
+    <div class="gift-modal-overlay" id="gift-modal-overlay">
+        <div class="gift-modal" id="gift-modal">
+            <button class="gift-modal-close-btn" id="gift-modal-close-btn">✖️</button>
+            <h3>🌟 ¡Sorpresa! 🌟</h3>
+            <p>Tu regalo especial es una colección de todos nuestros mejores recuerdos juntos, acompañados de mi promesa de crear muchos más momentos increíbles contigo. ¡Eres la mejor amiga que alguien podría pedir!</p>
+            <p>💕 Con todo mi cariño 💕</p>
+        </div>
+    </div>
+    <section id="compliment-generator">
+        <h2 class="section-title">✨ Cumplidos</h2>
+        <div class="generator-container">
+            <div class="generator-output" id="compliment-output">
+                Haz clic en el botón para recibir un cumplido único 💝
+            </div>
+            <p>¡Presiona el botón para recibir un cumplido especial!</p>
+            <button class="generator-btn" id="compliment-btn">Generar Cumplido</button>
+        </div>
+    </section>
+
+    <section id="poem-generator">
+        <h2 class="section-title">📝 Poemas</h2>
+        <div class="generator-container">
+            <div class="generator-output" id="poem-output">
+                Presiona el botón para crear un poema especial 🌟
+            </div>
+            <p>¡Crea un poema personalizado para celebrar tu día!</p>
+            <button class="generator-btn" id="poem-btn">Generar Poema</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>Hecho con <span class="footer-heart">💖</span> para la mejor amiga del mundo</p>
+            <p>© 2025 - Un regalo lleno de amor y amistad</p>
+        </div>
+    </footer>
+
+    <div class="image-modal-overlay" id="image-modal-overlay">
+        <div class="image-modal-content">
+            <button class="image-modal-close-btn" id="image-modal-close-btn">✖️</button>
+            <img src="" alt="Imagen en Pop-up" id="image-modal-img">
+        </div>
+    </div>
+
+    <script>
+        // Lógica para la pantalla de bienvenida y el inicio de la música
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const enterButton = document.getElementById('enter-button');
+        const birthdaySong = document.getElementById('birthdaySong');
+        const musicStitchBtn = document.getElementById('music-stitch-btn');
+
+        // --- Configuración de la Playlist de Música ---
+        const playlist = [
+            // ¡IMPORTANTE! REEMPLAZA ESTAS URLs CON LAS DE TUS CANCIONES REALES
+            // Puedes usar URLs relativas (ej. "musica/mi_cancion.mp3") si están en tu mismo servidor
+            // o URLs absolutas (ej. "https://ejemplo.com/musica/otra_cancion.mp3")
+            "https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Hoy%20se%20baila%20por%20ti%2C%20mi%20mejor%20amiga%2C.mp3?v=1748091661369",
+            "https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/5.-%20Micro%20TDH%20-%20D%26D%20(Inefable%202017)%20-%20Micro%20TDH.mp3?v=1749162548012",
+            "https://cdn.glitch.global/a0bec6cd-f3cf-4439-b6d5-c4d3e3e907a0/Romeo%20Santos%20-%20Que%20Se%20Mueran%20(Audio)(MP3_160K).mp3?v=1749162577532"
+            // Añade más URLs aquí si tienes más canciones en tu playlist
+        ];
+        let currentSongIndex = 0;
+        let isPlaying = false; // Estado inicial de reproducción
+
+        function loadAndPlaySong(index) {
+            if (playlist.length === 0) {
+                console.warn("La playlist de canciones está vacía. No se puede reproducir.");
+                musicStitchBtn.classList.remove('playing');
+                isPlaying = false;
+                return;
+            }
+
+            // Asegurarse de que el índice esté dentro de los límites de la playlist
+            if (index >= playlist.length) {
+                currentSongIndex = 0; // Vuelve al principio si se llega al final
+            } else if (index < 0) {
+                currentSongIndex = playlist.length - 1; // Para ir a la última canción si se va hacia atrás (aunque no tenemos esa funcionalidad)
+            } else {
+                currentSongIndex = index;
+            }
+
+            const songUrl = playlist[currentSongIndex];
+            birthdaySong.src = songUrl;
+            birthdaySong.load(); // Carga la nueva canción
+
+            console.log(`Intentando reproducir: ${songUrl}`);
+            birthdaySong.play()
+                .then(() => {
+                    console.log(`Reproduciendo: ${songUrl} (Éxito)`);
+                    musicStitchBtn.classList.add('playing');
+                    isPlaying = true;
+                })
+                .catch(error => {
+                    console.error("Error al reproducir la canción (posible bloqueo de autoplay o URL incorrecta):", error);
+                    console.error("Mensaje de error específico:", error.message);
+                    console.warn("La reproducción automática puede estar bloqueada por el navegador. Intenta un segundo clic en el botón de música del encabezado para activarla manualmente.");
+                    musicStitchBtn.classList.remove('playing');
+                    isPlaying = false;
+                });
+        }
+
+        function playNextSong() {
+            currentSongIndex++;
+            if (currentSongIndex >= playlist.length) {
+                currentSongIndex = 0; // Vuelve al inicio de la playlist
+            }
+            loadAndPlaySong(currentSongIndex);
+        }
+
+        // Cuando la canción actual termina, reproduce la siguiente
+        birthdaySong.addEventListener('ended', () => {
+            console.log(`Canción ${playlist[currentSongIndex]} ha terminado.`);
+            playNextSong();
+        });
+
+        // --- Event Listener para el botón de Entrada ---
+        enterButton.addEventListener('click', () => {
+            console.log("Botón 'Entrar' clicado.");
+            // Carga y reproduce la primera canción de la playlist
+            birthdaySong.muted = false; // Asegúrate de desmutear
+            loadAndPlaySong(currentSongIndex);
+
+            // Oculta la pantalla de bienvenida
+            welcomeScreen.classList.add('hidden');
+
+            // Dispara el confeti al entrar
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+
+        // --- Control del botón de Stitch en el Header ---
+        musicStitchBtn.addEventListener('click', () => {
+            console.log("Botón de música clicado. Estado actual: ", isPlaying ? "Reproduciendo" : "Pausado");
+            if (isPlaying) {
+                birthdaySong.pause();
+                musicStitchBtn.classList.remove('playing');
+                console.log("Música pausada.");
+            } else {
+                // Si no está reproduciendo, intenta reproducir la canción actual
+                if (birthdaySong.src) { // Solo intenta si ya hay una canción cargada
+                    birthdaySong.play()
+                        .then(() => {
+                            musicStitchBtn.classList.add('playing');
+                            console.log("Música reanudada/iniciada desde el botón del header.");
+                        })
+                        .catch(error => {
+                            console.error("Error al reanudar la música desde el botón del header:", error);
+                            musicStitchBtn.classList.remove('playing');
+                        });
+                } else {
+                    console.log("No hay una canción cargada. Cargando la primera de la playlist.");
+                    loadAndPlaySong(currentSongIndex); // Carga y reproduce la primera si no hay nada cargado
+                }
+            }
+            isPlaying = !isPlaying; // Actualiza el estado
+        });
+
+        // Asegurarse de que el estado inicial del botón Stitch sea correcto
+        // Esto se ejecutará cuando el DOM esté completamente cargado.
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Cargado. Inicializando estado de la música.");
+            // No iniciar automáticamente aquí, ya que el botón de entrada lo hará.
+            // Solo establecer el estado visual si, por alguna razón, ya estuviera sonando (poco probable al inicio).
+            if (!birthdaySong.paused) {
+                musicStitchBtn.classList.add('playing');
+                isPlaying = true;
+            } else {
+                musicStitchBtn.classList.remove('playing');
+                isPlaying = false;
+            }
+        });
+
+
+        // Floating Hearts Animation
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floating-hearts');
+            const numHearts = 15; // Number of hearts to generate
+
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                const size = Math.random() * (40 - 20) + 20; // Size between 20px and 40px
+                heart.style.width = size + 'px';
+                heart.style.height = size + 'px';
+                heart.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+                heart.style.animationDuration = Math.random() * (15 - 8) + 8 + 's'; // Duration between 8s and 15s
+                heart.style.animationDelay = Math.random() * 5 + 's'; // Delay up to 5s
+                heartsContainer.appendChild(heart);
+            }
+        }
+        createFloatingHearts(); // Call to create floating hearts
+
+
+        // Parallax Stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 100;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars(); // Call to create stars
+
+
+        // Countdown Timer
+        function startCountdown() {
+            // Configura aquí la fecha del cumpleaños (Año, Mes-1, Día, Hora, Minuto, Segundo)
+            // La fecha actual es 4 de junio de 2025
+            const birthday = new Date('2025-12-31T00:00:00').getTime(); // Ejemplo: 31 de diciembre de 2025
+
+            const timer = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = birthday - now;
+
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown-timer').innerHTML =
+                        '<div class="time-unit"><span class="number">🎉</span><span class="label">¡Es tu día!</span></div>';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+        startCountdown(); // Call to start countdown
+
+
+        // Gift Box Interaction
+        const giftBox = document.getElementById('gift-box');
+        const giftModalOverlay = document.getElementById('gift-modal-overlay');
+        const giftModalCloseBtn = document.getElementById('gift-modal-close-btn');
+
+        giftBox.addEventListener('click', () => {
+            giftModalOverlay.classList.add('active');
+            // Opcional: Si quieres reproducir un sonido o confeti al abrir el regalo
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+
+        giftModalCloseBtn.addEventListener('click', () => {
+            giftModalOverlay.classList.remove('active');
+        });
+
+        giftModalOverlay.addEventListener('click', (e) => {
+            if (e.target === giftModalOverlay) {
+                giftModalOverlay.classList.remove('active');
+            }
+        });
+
+        // Image Gallery Pop-up
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const imageModalOverlay = document.getElementById('image-modal-overlay');
+        const imageModalImg = document.getElementById('image-modal-img');
+        const imageModalCloseBtn = document.getElementById('image-modal-close-btn');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.dataset.src;
+                imageModalImg.src = imgSrc;
+                imageModalOverlay.classList.add('active');
+            });
+        });
+
+        imageModalCloseBtn.addEventListener('click', () => {
+            imageModalOverlay.classList.remove('active');
+        });
+
+        imageModalOverlay.addEventListener('click', (e) => {
+            if (e.target === imageModalOverlay) {
+                imageModalOverlay.classList.remove('active');
+            }
+        });
+
+        // Compliment Generator
+        const complimentBtn = document.getElementById('compliment-btn');
+        const complimentOutput = document.getElementById('compliment-output');
+        const compliments = [
+            "Tu sonrisa ilumina el día más oscuro.",
+            "Eres una persona increíblemente fuerte y resiliente.",
+            "Tu creatividad no tiene límites, ¡me inspiras!",
+            "Tienes un corazón tan grande como el universo.",
+            "Cada día a tu lado es una aventura.",
+            "Tu amabilidad es un regalo para todos los que te conocen.",
+            "Eres única, especial y absolutamente maravillosa.",
+            "Admiro tu pasión y tu determinación.",
+            "Gracias por ser tan tú, eres perfecta.",
+            "Contigo, el tiempo vuela y la vida es más dulce."
+        ];
+
+        complimentBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * compliments.length);
+            complimentOutput.textContent = compliments[randomIndex];
+            complimentOutput.classList.remove('visible'); // Reinicia la animación
+            void complimentOutput.offsetWidth; // Truco para forzar el reflow y reiniciar la transición
+            complimentOutput.classList.add('visible');
+        });
+
+        // Poem Generator
+        const poemBtn = document.getElementById('poem-btn');
+        const poemOutput = document.getElementById('poem-output');
+        const poemVerses = [
+            "En tu día, un brillo especial,",
+            "Tu risa, melodía sin igual.",
+            "Con cada paso, dejas huella,",
+            "Estrella que en mi cielo destella.",
+            "Que la alegría te abrace sin fin,",
+            "Desde el amanecer hasta el confín.",
+            "Tu esencia, un tesoro muy puro,",
+            "Por siempre en mi vida, te lo aseguro.",
+            "Mil sueños te esperen, mil flores,",
+            "En este tu día, llenos de colores."
+        ];
+
+        poemBtn.addEventListener('click', () => {
+            let selectedVerses = [];
+            let availableIndexes = Array.from({ length: poemVerses.length }, (_, i) => i);
+
+            // Seleccionar 4 versos únicos al azar
+            for (let i = 0; i < 4; i++) {
+                if (availableIndexes.length === 0) break;
+                const randomIndex = Math.floor(Math.random() * availableIndexes.length);
+                const verseIndex = availableIndexes.splice(randomIndex, 1)[0];
+                selectedVerses.push(poemVerses[verseIndex]);
+            }
+
+            poemOutput.innerHTML = selectedVerses.join('<br>'); // Usar innerHTML para saltos de línea
+            poemOutput.classList.remove('visible'); // Reinicia la animación
+            void poemOutput.offsetWidth; // Truco para forzar el reflow y reiniciar la transición
+            poemOutput.classList.add('visible');
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+    </script>
+</body>
+</html>
