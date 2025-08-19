@@ -1,0 +1,592 @@
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Dalia! 🎉</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stitch-blue': '#4A90E2',
+                        'stitch-dark': '#2563EB',
+                        'birthday-pink': '#EC4899',
+                        'birthday-light-pink': '#F472B6',
+                        'tropical-green': '#10B981',
+                        'sunset-orange': '#F59E0B'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        heartFloat: {
+                            '0%': { transform: 'translateY(100vh) scale(0)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateY(-100vh) scale(1)', opacity: '0' }
+                        },
+                        bounce: {
+                            '0%, 20%, 53%, 80%, 100%': { transform: 'translateY(0)' },
+                            '40%, 43%': { transform: 'translateY(-30px)' },
+                            '70%': { transform: 'translateY(-15px)' }
+                        },
+                        pulse: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.5' }
+                        },
+                        spin: {
+                            'from': { transform: 'rotate(0deg)' },
+                            'to': { transform: 'rotate(360deg)' }
+                        }
+                    },
+                    animation: {
+                        float: 'float 3s ease-in-out infinite',
+                        heartFloat: 'heartFloat 8s linear infinite',
+                        bounce: 'bounce 2s infinite',
+                        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        spin: 'spin 1s linear infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .floating-hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-pink-50 to-purple-50 min-h-screen overflow-x-hidden">
+    
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts">
+        <!-- @FUNCTIONALITY: These hearts should float up continuously using CSS animations -->
+        <div class="absolute animate-heartFloat text-birthday-pink text-2xl" style="left: 10%; animation-delay: 0s;">💙</div>
+        <div class="absolute animate-heartFloat text-stitch-blue text-xl" style="left: 20%; animation-delay: 2s;">💖</div>
+        <div class="absolute animate-heartFloat text-birthday-light-pink text-3xl" style="left: 30%; animation-delay: 4s;">💜</div>
+        <div class="absolute animate-heartFloat text-tropical-green text-lg" style="left: 40%; animation-delay: 1s;">💙</div>
+        <div class="absolute animate-heartFloat text-sunset-orange text-2xl" style="left: 50%; animation-delay: 3s;">💖</div>
+        <div class="absolute animate-heartFloat text-stitch-dark text-xl" style="left: 60%; animation-delay: 5s;">💜</div>
+        <div class="absolute animate-heartFloat text-birthday-pink text-2xl" style="left: 70%; animation-delay: 2.5s;">💙</div>
+        <div class="absolute animate-heartFloat text-stitch-blue text-lg" style="left: 80%; animation-delay: 4.5s;">💖</div>
+        <div class="absolute animate-heartFloat text-birthday-light-pink text-3xl" style="left: 90%; animation-delay: 1.5s;">💜</div>
+    </div>
+
+    <!-- @COMPONENT: Navigation [responsive with hamburger menu] -->
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md shadow-lg z-50 border-b border-stitch-blue/20">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-stitch-blue to-stitch-dark rounded-full flex items-center justify-center">
+                        <i class="fas fa-birthday-cake text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-stitch-dark">Dalia's Birthday</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Inicio</a>
+                    <a href="#countdown" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Cuenta Regresiva</a>
+                    <a href="#compliments" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Cumplidos</a>
+                    <a href="#music" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Música</a>
+                    <a href="#celebration" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Celebración</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-stitch-dark hover:text-birthday-pink transition-colors duration-300" data-event="click:toggleMobileMenu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="md:hidden mt-4 pb-4 border-t border-stitch-blue/20 hidden" id="mobile-menu">
+                <div class="flex flex-col space-y-3 pt-4">
+                    <a href="#home" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Inicio</a>
+                    <a href="#countdown" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Cuenta Regresiva</a>
+                    <a href="#compliments" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Cumplidos</a>
+                    <a href="#music" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Música</a>
+                    <a href="#celebration" class="text-stitch-dark hover:text-birthday-pink transition-colors duration-300 font-medium">Celebración</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: Hero Section [main birthday landing] -->
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="animate-bounce">
+                <h1 class="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-stitch-blue via-birthday-pink to-stitch-dark mb-4">
+                    ¡FELIZ
+                </h1>
+                <h1 class="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-birthday-pink via-stitch-blue to-birthday-light-pink mb-8">
+                    CUMPLEAÑOS!
+                </h1>
+            </div>
+
+            <div class="animate-float">
+                <h2 class="text-4xl md:text-6xl font-bold text-stitch-dark mb-8">DALIA</h2>
+                <!-- Disney Stitch themed illustration -->
+                <div class="text-8xl md:text-9xl mb-8 animate-pulse">🎂</div>
+            </div>
+
+            <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                ¡Prepárate para la celebración más increíble del año! Tu día especial está lleno de sorpresas y alegría.
+            </p>
+
+            <button class="bg-gradient-to-r from-stitch-blue to-birthday-pink text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-birthday-pink hover:to-stitch-blue transition-all duration-300 transform hover:scale-105 shadow-lg" data-event="click:celebrateButton">
+                <i class="fas fa-party-horn mr-2"></i>
+                ¡Comenzar la Celebración!
+            </button>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="absolute top-20 left-10 text-6xl text-birthday-pink animate-spin">🎈</div>
+        <div class="absolute top-40 right-10 text-5xl text-stitch-blue animate-bounce">🎉</div>
+        <div class="absolute bottom-20 left-20 text-4xl text-tropical-green animate-float">🎪</div>
+        <div class="absolute bottom-32 right-20 text-5xl text-sunset-orange animate-pulse">🌟</div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: Countdown Timer [real-time countdown to July 13, 2025] -->
+    <!-- Countdown Section -->
+    <section id="countdown" class="py-20 bg-gradient-to-r from-stitch-blue/10 to-birthday-pink/10">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-stitch-dark mb-4">Cuenta Regresiva</h2>
+                <p class="text-xl text-gray-600">¡Faltan muy pocos días para tu próximo cumpleaños!</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <!-- @STATE: countdown values updated every second -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl md:text-5xl font-bold text-stitch-blue mb-2" data-bind="countdown.days">145</div>
+                        <div class="text-lg font-semibold text-gray-600">Días</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl md:text-5xl font-bold text-birthday-pink mb-2" data-bind="countdown.hours">12</div>
+                        <div class="text-lg font-semibold text-gray-600">Horas</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl md:text-5xl font-bold text-tropical-green mb-2" data-bind="countdown.minutes">34</div>
+                        <div class="text-lg font-semibold text-gray-600">Minutos</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl md:text-5xl font-bold text-sunset-orange mb-2" data-bind="countdown.seconds">56</div>
+                        <div class="text-lg font-semibold text-gray-600">Segundos</div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-stitch-dark mb-4">¡Hasta el 13 de Julio de 2025!</p>
+                    <div class="text-6xl animate-bounce">🎯</div>
+                </div>
+            </div>
+        </div>
+    </section>  
+    <!-- @END_COMPONENT: Countdown Timer -->
+
+    <!-- @COMPONENT: Compliments Generator [interactive random compliments] -->
+    <!-- Compliments Generator Section -->
+    <section id="compliments" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-stitch-dark mb-4">Generador de Cumplidos</h2>
+                <p class="text-xl text-gray-600">¡Descubre lo increíble que eres con cada click!</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-stitch-blue via-birthday-pink to-tropical-green"></div>
+                    
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 animate-pulse">🌟</div>
+                        <div class="min-h-[100px] flex items-center justify-center">
+                            <!-- @STATE: currentCompliment changes on button click -->
+                            <p class="text-2xl md:text-3xl font-semibold text-stitch-dark leading-relaxed" data-bind="currentCompliment" data-mock="true">
+                                ¡Eres una persona extraordinaria que ilumina la vida de todos los que te rodean!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="bg-gradient-to-r from-birthday-pink to-stitch-blue text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-stitch-blue hover:to-birthday-pink transition-all duration-300 transform hover:scale-105 shadow-lg" data-event="click:generateCompliment">
+                        <i class="fas fa-heart mr-2"></i>
+                        ¡Dame otro cumplido!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Compliments Generator -->
+
+    <!-- @COMPONENT: Music Player [background music with themed controls] -->
+    <!-- Music Player Section -->
+    <section id="music" class="py-20 bg-gradient-to-r from-purple-100 to-blue-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-stitch-dark mb-4">Música de Celebración</h2>
+                <p class="text-xl text-gray-600">¡La banda sonora perfecta para tu día especial!</p>
+            </div>
+
+            <div class="max-w-lg mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-stitch-blue to-birthday-pink"></div>
+                    
+                    <!-- Album Art -->
+                    <div class="text-center mb-6">
+                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-stitch-blue to-birthday-pink rounded-full flex items-center justify-center text-6xl text-white shadow-lg animate-pulse">
+                            🎵
+                        </div>
+                    </div>
+
+                    <!-- Song Info -->
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2" data-bind="currentSong.title" data-mock="true">Happy Birthday Stitch Mix</h3>
+                        <p class="text-gray-600" data-bind="currentSong.artist" data-mock="true">Disney Birthday Celebration</p>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-500 mb-2">
+                            <span data-bind="currentTime" data-mock="true">1:23</span>
+                            <span data-bind="totalTime" data-mock="true">3:45</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-stitch-blue to-birthday-pink h-2 rounded-full transition-all duration-300" style="width: 35%" data-bind="progressPercentage"></div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="flex items-center justify-center space-x-6">
+                        <button class="text-stitch-blue hover:text-birthday-pink transition-colors duration-300 text-2xl" data-event="click:previousTrack">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <!-- @STATE: isPlaying toggles play/pause icon -->
+                        <button class="bg-gradient-to-r from-stitch-blue to-birthday-pink text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl hover:from-birthday-pink hover:to-stitch-blue transition-all duration-300 transform hover:scale-105 shadow-lg" data-event="click:togglePlayPause" data-state="isPlaying">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                        <button class="text-stitch-blue hover:text-birthday-pink transition-colors duration-300 text-2xl" data-event="click:nextTrack">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+
+                    <!-- Volume Control -->
+                    <div class="mt-6 flex items-center space-x-3">
+                        <i class="fas fa-volume-down text-gray-400"></i>
+                        <div class="flex-1">
+                            <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" data-bind="volume">
+                        </div>
+                        <i class="fas fa-volume-up text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Music Player -->
+
+    <!-- @COMPONENT: Celebration Gallery [festive sections with animations] -->
+    <!-- Celebration Gallery Section -->
+    <section id="celebration" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-stitch-dark mb-4">¡Galería de Celebración!</h2>
+                <p class="text-xl text-gray-600">Momentos especiales y recuerdos increíbles</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Celebration Card 1 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- A joyful birthday party scene with colorful balloons and decorations -->
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Birthday party celebration" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">🎉 Fiesta Sorpresa</h3>
+                        <p class="text-gray-600">¡Los mejores momentos de celebración con amigos y familia!</p>
+                    </div>
+                </div>
+
+                <!-- Celebration Card 2 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- A beautifully decorated birthday cake with candles -->
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Birthday cake with candles" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">🎂 Pastel Especial</h3>
+                        <p class="text-gray-600">Un delicioso pastel hecho con amor para tu día especial.</p>
+                    </div>
+                </div>
+
+                <!-- Celebration Card 3 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- Colorful gift boxes and presents -->
+                    <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Colorful birthday gifts" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">🎁 Regalos Increíbles</h3>
+                        <p class="text-gray-600">Sorpresas especiales llenas de cariño y buenos deseos.</p>
+                    </div>
+                </div>
+
+                <!-- Celebration Card 4 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- Friends celebrating together -->
+                    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Friends celebrating together" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">👥 Mejores Amigos</h3>
+                        <p class="text-gray-600">Las personas más especiales celebrando contigo.</p>
+                    </div>
+                </div>
+
+                <!-- Celebration Card 5 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- Fireworks in the night sky -->
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Fireworks celebration" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">🎆 Fuegos Artificiales</h3>
+                        <p class="text-gray-600">¡Una celebración que ilumina el cielo nocturno!</p>
+                    </div>
+                </div>
+
+                <!-- Celebration Card 6 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                    <!-- Happy celebration with confetti -->
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Confetti celebration" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stitch-dark mb-2">🎊 Confeti Mágico</h3>
+                        <p class="text-gray-600">Momentos llenos de alegría y celebración.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confetti Button -->
+            <div class="text-center mt-12">
+                <button class="bg-gradient-to-r from-sunset-orange to-tropical-green text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-tropical-green hover:to-sunset-orange transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce" data-event="click:launchConfetti">
+                    <i class="fas fa-magic mr-2"></i>
+                    ¡Lanza Confeti! 🎊
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Celebration Gallery -->
+
+    <!-- @COMPONENT: Special Messages [additional festive content] -->
+    <!-- Special Messages Section -->
+    <section class="py-20 bg-gradient-to-r from-birthday-pink/10 to-stitch-blue/10">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-stitch-dark mb-8">Mensajes Especiales</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="text-5xl mb-4">💙</div>
+                        <h3 class="text-xl font-bold text-stitch-dark mb-4">Para una Persona Especial</h3>
+                        <p class="text-gray-600 leading-relaxed">Dalia, eres una luz brillante en este mundo. Tu sonrisa ilumina los días más oscuros y tu corazón bondadoso toca la vida de todos los que te conocen.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="text-5xl mb-4">🌟</div>
+                        <h3 class="text-xl font-bold text-stitch-dark mb-4">Deseos de Cumpleaños</h3>
+                        <p class="text-gray-600 leading-relaxed">Que este nuevo año de vida esté lleno de aventuras increíbles, momentos de felicidad pura y todos tus sueños más hermosos hechos realidad.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+                    <div class="text-6xl mb-6">🎈</div>
+                    <h3 class="text-2xl font-bold text-stitch-dark mb-4">¡Un Año Más de Increíbles Aventuras!</h3>
+                    <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                        Cada año que pasa, demuestras lo extraordinaria que eres. Tu capacidad de hacer sonreír a otros, 
+                        tu generosidad infinita y tu espíritu aventurero hacen del mundo un lugar mejor. 
+                        ¡Que este nuevo año esté lleno de magia, como el corazón de Stitch lleno de ohana! 💙
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Special Messages -->
+
+    <!-- @COMPONENT: Footer [themed footer with social links] -->
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-stitch-dark to-birthday-pink text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="text-6xl mb-6 animate-bounce">🎉</div>
+                <h3 class="text-3xl font-bold mb-4">¡Feliz Cumpleaños Dalia!</h3>
+                <p class="text-xl mb-8 opacity-90">Que todos tus deseos se hagan realidad</p>
+                
+                <div class="flex justify-center space-x-6 mb-8">
+                    <button class="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-all duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </button>
+                    <button class="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-all duration-300 transform hover:scale-110">
+                        <i class="fab fa-facebook text-2xl"></i>
+                    </button>
+                    <button class="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-all duration-300 transform hover:scale-110">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </button>
+                    <button class="bg-white/20 hover:bg-white/30 p-4 rounded-full transition-all duration-300 transform hover:scale-110">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="border-t border-white/20 pt-8">
+                    <p class="opacity-75">Hecho con 💙 para celebrar tu día especial</p>
+                    <p class="opacity-75 mt-2">© 2024 - Con amor infinito para Dalia</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        (function() {
+            // TODO: Implement business logic, API calls, and state management
+            
+            // Mobile menu toggle
+            const mobileMenuButton = document.querySelector('[data-event="click:toggleMobileMenu"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Countdown timer - countdown to July 13, 2025
+            function updateCountdown() {
+                const targetDate = new Date('2025-07-13T00:00:00').getTime();
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const daysElement = document.querySelector('[data-bind="countdown.days"]');
+                const hoursElement = document.querySelector('[data-bind="countdown.hours"]');
+                const minutesElement = document.querySelector('[data-bind="countdown.minutes"]');
+                const secondsElement = document.querySelector('[data-bind="countdown.seconds"]');
+
+                if (daysElement) daysElement.textContent = days;
+                if (hoursElement) hoursElement.textContent = hours;
+                if (minutesElement) minutesElement.textContent = minutes;
+                if (secondsElement) secondsElement.textContent = seconds;
+            }
+
+            // Update countdown every second
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Compliments generator
+            const compliments = [
+                "¡Eres una persona extraordinaria que ilumina la vida de todos los que te rodean!",
+                "Tu sonrisa es más brillante que mil estrellas en el cielo nocturno ✨",
+                "Tienes un corazón tan grande que no cabe en el universo 💙",
+                "Eres la definición perfecta de bondad y alegría combinadas",
+                "Tu risa es la melodía más hermosa que existe en este mundo 🎵",
+                "Eres un rayo de sol en los días más nublados ☀️",
+                "Tu presencia hace que todo sea más mágico y especial",
+                "Tienes el poder de hacer que otros se sientan importantes y queridos",
+                "Eres una obra maestra única e irrepetible 🎨",
+                "Tu espíritu aventurero inspira a todos a ser valientes",
+                "Eres más valiosa que todos los tesoros del mundo juntos 💎",
+                "Tu inteligencia y sabiduría son admirables y inspiradoras"
+            ];
+
+            const generateComplimentButton = document.querySelector('[data-event="click:generateCompliment"]');
+            const complimentText = document.querySelector('[data-bind="currentCompliment"]');
+            
+            if (generateComplimentButton && complimentText) {
+                generateComplimentButton.addEventListener('click', function() {
+                    const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+                    complimentText.textContent = randomCompliment;
+                    
+                    // Add animation effect
+                    complimentText.style.opacity = '0';
+                    setTimeout(() => {
+                        complimentText.style.opacity = '1';
+                    }, 200);
+                });
+            }
+
+            // Music player controls (mockup functionality)
+            const playPauseButton = document.querySelector('[data-event="click:togglePlayPause"]');
+            let isPlaying = true;
+            
+            if (playPauseButton) {
+                playPauseButton.addEventListener('click', function() {
+                    isPlaying = !isPlaying;
+                    const icon = playPauseButton.querySelector('i');
+                    if (icon) {
+                        icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                    }
+                });
+            }
+
+            // Confetti effect
+            const confettiButton = document.querySelector('[data-event="click:launchConfetti"]');
+            if (confettiButton) {
+                confettiButton.addEventListener('click', function() {
+                    // TODO: Implement confetti animation using canvas-confetti library
+                    // This would create a shower of colorful confetti
+                    alert('¡CONFETI MÁGICO! 🎊✨ (Implementar con canvas-confetti)');
+                });
+            }
+
+            // Celebrate button
+            const celebrateButton = document.querySelector('[data-event="click:celebrateButton"]');
+            if (celebrateButton) {
+                celebrateButton.addEventListener('click', function() {
+                    // TODO: Implement celebration animation and scroll to countdown section
+                    document.getElementById('countdown').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Add more floating hearts periodically
+            function addFloatingHeart() {
+                const heartsContainer = document.querySelector('.floating-hearts');
+                if (heartsContainer) {
+                    const heart = document.createElement('div');
+                    const hearts = ['💙', '💖', '💜'];
+                    const colors = ['text-birthday-pink', 'text-stitch-blue', 'text-birthday-light-pink', 'text-tropical-green'];
+                    const sizes = ['text-lg', 'text-xl', 'text-2xl', 'text-3xl'];
+                    
+                    heart.className = `absolute animate-heartFloat ${colors[Math.floor(Math.random() * colors.length)]} ${sizes[Math.floor(Math.random() * sizes.length)]}`;
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = '0s';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    heartsContainer.appendChild(heart);
+                    
+                    // Remove heart after animation completes
+                    setTimeout(() => {
+                        if (heartsContainer.contains(heart)) {
+                            heartsContainer.removeChild(heart);
+                        }
+                    }, 8000);
+                }
+            }
+
+            // Add a new floating heart every 2 seconds
+            setInterval(addFloatingHeart, 2000);
+        })();
+    </script>
+</body>
+</html>
